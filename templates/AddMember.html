@@ -1,0 +1,110 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block css %}
+{% endblock %}
+{% block content %}
+  <div class="main-wrapper">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="page-title">
+                                    <p class="page-desc">Documentation and examples for badges, our small count and labeling component.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Registration Form Payment</h5>
+                                        <form method="post"  action="{% url 'AddMemberId' member.id %}">
+                                        {% csrf_token %}
+                                        <div id="msg"></div>
+                                        {% include 'partial/_message.html' %}
+
+<div>
+                                            <div class="form-row">
+                                               {% if member %}
+                                            <div class="col-md-2 mb-4">
+                                         <img src="{{ member.Logo.url }}" alt="HTML5 Icon" style="width: 100%;max-width: 400px;height: auto;">
+                                            </div>
+                                            <br> <br>
+                                        {% endif %}
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="Company">Company name</label>
+                                                   <select class="form-control custom-select" name="Company" id = 'Company' {% if  member.id %}
+                                                        disabled
+                                                                {% else %}
+
+                                                        {% endif %} >
+                                                       <option value="null">Pick a company</option>
+                                                       {% for foo in SumbittedForm %}
+                                                        <option value="{{ foo.id }}"  {% if foo.id  == member.id %}
+                                                        selected
+                                                                {% else %}
+
+                                                        {% endif %} >{{ foo.NameofOrganisation }}</option>
+                                                       {% endfor %}
+
+                                                   </select>
+
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+
+                                                          <label for="Amount">Membership Number</label>
+                                                    <div class="row">
+                                                        &nbsp; &nbsp; &nbsp;
+                                                    <input class="form-control  col-sm-5 mb-6" type="text"  id="MN1" STYLE="border-radius: 0" NAME="MN" placeholder="000" required>
+                                                    &nbsp; &nbsp; &nbsp;    <h1 style="">/</h1>&nbsp; &nbsp; &nbsp;
+                                                    <input class="form-control  col-sm-5 mb-6" type="text"  id="MN1" STYLE="border-radius: 0" NAME="MN" placeholder="000" required>
+</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                            <div class="col-md-12 mb-6 ">
+                                                    <label for="DatePaid">Membership Date</label>
+                                                    <input type="date" class="form-control" id="DateMembership" NAME="DateMembership" placeholder="Amount Paid" required>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group">
+
+                                            </div>
+                                                <button class="btn btn-block btn-primary" type="submit">Submit form</button>
+                                        </form>
+</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+function checkForm() {
+                var check = true
+      var decimal = /^[0-9]+([,.][0-9]+)?$/g;
+     var x = document.getElementById("Amount").value
+    var y = document.getElementById("Company").value
+    var z = document.getElementById("Status").value
+
+if (!(x.match(decimal))|| y =='null'||z=='null') {
+     document.getElementById("msg").innerHTML = "<div class=\"alert alert-danger mb-0\" role=\"alert\">\n" +
+                       "                                                    <strong>Oh snap!</strong> Change a few things up and try submitting again.\n" +
+                       "                                                </div> <br>"
+                   check = false
+  console.log(x)
+}
+        if (check == false){
+return false;
+    }
+}
+
+</script>
+{% endblock %}

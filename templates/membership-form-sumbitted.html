@@ -1,0 +1,72 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block css %}
+<link href="{% static 'plugins/DataTables/datatables.min.css' %} " rel="stylesheet">
+{% endblock %}
+{% block content %}
+                    <div class="page-content ">
+                    <div class="page-info">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Extended</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Data Tables</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="main-wrapper">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-6">
+                                <div class="page-title">
+                                    <p class="page-desc">DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, built upon the foundations of progressive enhancement, that adds many advanced features to any HTML table.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                            {% include 'partial/_message.html' %}
+                                <div class="card m-b-30">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Membership Sumbmission List</h5>
+                                        <p></p>
+                                        <table id="zero-conf" class="table table-bordered dt-responsive nowrap" style=" width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name of Organisation</th>
+                                                    <th>Company Phone No</th>
+                                                    <th>Date Added</th>
+                                                    <th>Mailing Address</th>
+                                                    <th>Status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                    {% for foo in listSumitted %}
+                                                    <tr>
+                                                    <td>{{ foo.NameofOrganisation }}</td>
+                                                    <td>{{ foo.CompanyPhoneNo }}</td>
+                                                    <td>{{ foo.DateInputed}}</td>
+                                                    <td>{{ foo.MailingAddress }}</td>
+                                                    <td>{{ foo.Status }}</td>
+
+                                                </tr>
+
+                                                    {% endfor %}
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+{% endblock %}
+
+b
+{% block script %}
+ <script src="{% static  'plugins/DataTables/datatables.min.js' %}"></script>
+        <script src="{% static  '/js/pages/datatables.js' %}"></script>
+{% endblock %}

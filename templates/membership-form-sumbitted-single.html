@@ -1,0 +1,309 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block css %}
+<link href="{% static 'plugins/DataTables/datatables.min.css' %} " rel="stylesheet">
+{% endblock %}
+{% block content %}
+                  <div class="page-content">
+
+                    <div class="main-wrapper">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="todo-sidebar">
+                                        <div id="msg"></div>
+                                           <img src="{{ Sumitted.Logo.url }}" alt="HTML5 Icon" style="width: 100%;max-width: 400px;height: auto;">
+                                            <br> <br>
+                                        {% csrf_token %}
+
+                                                <select class="custom-select form-control" id="statusUpdate" onchange="SubmitStatus()" >
+                                                {% for foo,voo in status %}
+                                                <option value="{{ foo }}" {% if foo == Sumitted.Status %}
+                                                selected
+                                                {% endif %}  > {{ voo.upper }}</option>
+                                                {% endfor %}
+
+
+                                        </select>
+                                            <div class="todo-menu">
+                                                <ul class="list-unstyled">
+                                                    <li ><a href="#"><i class="fas fa-building"></i>{{ Sumitted.NameofOrganisation.upper }}</a></li>
+                                                    <li ><a href="#"><i class="fas fa-location-arrow"></i>{{ Sumitted.State.upper }}</a></li>
+                                                    <li ><a href="#"><i class="fas fa-spinner"></i>{{ Sumitted.Status.upper }}</a></li>
+                                                    <li><a href="#"><i class="fas fa-calendar"></i>{{ Sumitted.DateInputed }}</a></li>
+                                                    <li><a href="#"><i class="fas fa-money-bill-wave"></i>  {% if AmountPaid == 0 %}
+                                                        <span class="badge badge-danger">No-Payment</span>
+                                                        {% elif AmountReg == AmountPaid %}
+                                                    <span class="badge badge-success">Full-Payment</span>
+                                                    {% else%}<b style="font-weight: bolder ">{{ AmountPaid }}</b><br>
+                                                        <span class="badge badge-info">Part-Payment</span>
+                                                    {% endif %}
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="divider">
+
+                                                <a href="{% url 'AddMemberId' Sumitted.id %}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-plus-circle"></i> Add As New Member</a>
+                                            </div>
+                                            <div class="todo-search">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="todo-list">
+
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>
+Name of Organisation * <br>{{ Sumitted.NameofOrganisation }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>
+Emailing Address <br> {{ Sumitted.MailingAddress.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Office Address <br>
+                                                        {{ Sumitted.OfficeAddress }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>Company Website <br>
+                                                        {{ Sumitted.CompanyWebsite.capitalize }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>Company Phone No <br>
+                                                        {{ Sumitted.CompanyPhoneNo }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Date of Incorporation <br>
+                                                        {{ Sumitted.DateofIncorporation }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Type of Business <br>
+                                                        {{ Sumitted.TypeofBusiness.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Ownership <br>
+                                                        {{ Sumitted.TypeofOwnership.capitalize }}
+                                                    </a>
+                                                </li>  <li>
+                                                    <a>
+                                                    <i class="fas fa-angle-double-right"></i>
+Annual Turnover<br> <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.AnnualTurnover.url }}">View Annual Turnover</a>
+                                                    </a>
+                                                </li> <li>
+                                                    <a>
+                                                    <i class="fas fa-angle-double-right"></i>
+Emailing Address <br> {{ Sumitted.MailingAddress.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a>
+                                                    <i class="fas fa-angle-double-right"></i> Name Of Managing Director <br>
+                                                        {{ Sumitted.NameOfManagingDirector.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>Phone No Of Managing Director <br>
+                                                        {{ Sumitted.PhoneNoOfManagingDirector.capitalize }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a>
+                                                    <i class="fas fa-angle-double-right"></i>Email Address of Managing Director <br>
+                                                        {{ Sumitted.EmailAddressofManagingDirector.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i> Name of Alternate <br>
+                                                        {{ Sumitted.NameofAlternate.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i> Phone No(s) of Alternate <br>
+                                                        {{ Sumitted.PhoneofAlternate}}
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>Attach evidence of Organization Structure - Organizational charts<br>
+                                                        <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.AnnualTurnover.url }}">View Organizational charts</a>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>
+Total Staff Strength <br>{{ Sumitted.TotalStaffStrength }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>
+State the Mission/or goal of your firm <br> {{ Sumitted.MissionFirm.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> What is main of activities does the firm engage in <br>
+                                                        {{ Sumitted.MainActivities.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>What type(s) of training do you provide? <br>
+                                                        {{ Sumitted.TypeofTraining.capitalize }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>CORE AREAS OF SPECIALIZATION / PROFESSIONAL WORK GROUP(S) IN WHICH YOU BELONG: <br>
+                                                        {% if coreArea != False %}
+
+
+                                                        {% for foo in coreArea %}
+                                                         {{ foo }} <br>
+                                                        {% endfor %}{% endif %}
+
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Attach evidence of International accreditation e.g. OPITO, IIW, API, IMO,CITY & GUILDS . <br>
+                                                      <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.InternationalAccreditation.url }}"> View Evidence of International accreditation</a>
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Attach evidence of international affiliations/ technical partnerships <br>
+                                                            <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.internationalAffiliations.url }}"> Evidence of international affiliations/ technical partnerships</a>
+
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>
+Attach evidence of accreditation by relevant body(ies) - to offer their courses/program <br>
+                                                           <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.AccreditationbyRelevantBody.url }}"> View Evidence of accreditation by relevant body(ies)</a>
+
+
+                                                    </a>
+                                                </li>  <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>
+What is main of activities does the firm engage in<br> {{ Sumitted.CollaborativeTraining }} <br> <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.CollaborativeTrainingFile.url }}">View Collaborative Training File</a>
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>
+Are there any restrictions as to who may participate in your training programme? <br> {{ Sumitted.RestrictionsToTraining.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i> Indicate evidence of qualification, certification of Tutors/Facilitators. <br>
+                                                          {% if CertificationOfFacilitators != False %}
+
+
+                                                        {% for foo in CertificationOfFacilitators %}
+                                                         {{ foo }} <br>
+                                                        {% endfor %}{% endif %}
+
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>What methods of Training instruction are used in your programmes <br>
+                                                       <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.MethodsOfTraining.url }}">View methods of Training File</a>
+
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>What are the evaluation methods used for assessing <br>
+                                                        {% if EvaluationMethods != False %}
+
+
+                                                        {% for foo in EvaluationMethods %}
+                                                         {{ foo }} <br>
+                                                        {% endfor %}{% endif %}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Indicate and enumerate training facility Size <br>
+                                                        {{ Sumitted.TrainingFacilitySize.capitalize }}
+                                                    </a>
+                                                </li> <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i> Training Capacity <br>
+                                                        {{ Sumitted.TrainingCapacity}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>
+Enumerate training/ teaching equipment, tools, training materials<br>{{ Sumitted.TrainingMaterials }}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>Attach evidence of ownership of licenses/ licensed software for training<br>
+                                                        <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.LicensesOfTrianing.url }}">View licenses</a>
+                                                    </a>
+                                                </li>     <li>
+                                                    <a  >
+                                                    <i class="fas fa-angle-double-right"></i>Evidence of dedicated accommodation/hostel for resident courses near training facility<br>
+                                                        <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.AccommodationForTrianing.url }}">View Organizational charts</a>
+                                                    </a>
+                                                </li> <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>Attach evidence of accreditation as certified trainer by specialized software OEM<br>
+                                                        <a class="btn btn-primary btn-lg btn-block" href="{{ Sumitted.CertifiedTrainer.url }}">View Accreditation as certified trainer</a>
+                                                    </a>
+                                                </li>
+                                             <li>
+                                                    <a >
+                                                    <i class="fas fa-angle-double-right"></i>Identify areas where you require support from the Government or its regulatory agencies<br>{{ Sumitted.AreasOfGovernmentForTrianing }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+{% endblock %}
+
+{% block script %}
+ <script src="{% static  'plugins/DataTables/datatables.min.js' %}"></script>
+        <script src="{% static  '/js/pages/datatables.js' %}"></script>
+    <script>
+function SubmitStatus(e){
+    $.ajax({
+        type:'POST',
+        url:'{% url 'registration_update_status' Sumitted.id  %}',
+        data:{
+
+            statusUpdate:$('#statusUpdate').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+
+        },
+        success:function(json){
+          document.querySelector("#msg").innerHTML = '<div class="alert alert-primary" role="alert">\n' +
+                '                                           Profile details updated.\n' +
+                '                                        </div>'
+            console.log('ddd')
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+}
+    </script>
+{% endblock %}
